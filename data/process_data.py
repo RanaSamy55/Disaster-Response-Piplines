@@ -19,6 +19,7 @@ def load_data(messages_filepath, categories_filepath):
     df_messages = pd.read_csv(messages_filepath)
     df_categories = pd.read_csv(categories_filepath)
     df = df_messages.merge(df_categories, on=('id'))
+    
     print ('messages and categories data been loaded successfully and merged')
     return df
 
@@ -44,7 +45,7 @@ def clean_data(df):
     df=df.drop_duplicates()
     genre=pd.DataFrame(pd.get_dummies(df['genre']))
     df = pd.concat([df ,genre],axis=1)
-    df.drop(['genre'],axis=1,inplace=True)
+
     return df
 
 
@@ -57,7 +58,7 @@ def save_data(df, database_filename):
 
     """
     engine = create_engine('sqlite:///'+database_filename)
-    df.to_sql('dftab', engine, index=False)
+    df.to_sql('dftab', engine, index=False, if_exists='replace')
     pass  
 
 

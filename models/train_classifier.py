@@ -79,20 +79,18 @@ def build_model():
         ])),
 
 
-        ('clf', RandomForestClassifier())
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
+    parameters = {  
+        #'clf__estimator__min_samples_split': [2, 4],
+        #'clf__estimator__max_features': ['log2', 'auto', 'sqrt', None],
+        'clf__estimator__criterion': ['gini', 'entropy'],
+        #'clf__estimator__max_depth': [None, 25, 50, 100, 150, 200],
+    }
+    cv = GridSearchCV(estimator=pipeline, param_grid=parameters)
 
-    return pipeline
+    return cv
     
-
-
-
-
-
-    #parameters = {'clf__estimator__n_estimators': [50, 100],
-    #              'clf__estimator__min_samples_split': [2, 4]
-    #             }
-    #cv = GridSearchCV(pipeline, param_grid=parameters)
 
 
 
